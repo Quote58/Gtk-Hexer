@@ -1,0 +1,6 @@
+Beam Flicker|Misc||
+Elevator Flicker|Misc||
+'Beam' -> 'Boots'|HUD|T|This allows the player to move from <span foreground="blue"><b>BEAM</b></span> to <span foreground="orange"><b>BOOTS</b></span> when they click right, instead of <span foreground="blue"><b>BEAM</b></span> to <span foreground="red"><b>MISC</b></span> (because that made no sense)
+HUD Icon 'click'|HUD||
+Blue Palette change from metroid|Enemies|T|some stuff about metroids
+ZM/F style space jump|Physics||
