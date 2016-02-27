@@ -4,3 +4,13 @@ Elevator Flicker|Misc||
 HUD Icon 'click'|HUD||
 Blue Palette change from metroid|Enemies|T|some stuff about metroids
 ZM/F style space jump|Physics||
+Remove all screen shake|FX1|T|Removes all "screen shake" effects that activate when super missiles explode, lava is rising, Kraid is emerging, Zebes is exploding, etc.
+Remove Title screen haze|FX1||
+Remove Game over screen haze|FX1||
+Remove gray haze from Bomb Torizo room|FX1|T|Removes the gray haze from the bomb Torizo's room, and allows you to use any other FX1 in place of it. Easiest way to do this is to use another Crateria room's FX1 pointer after you change 22 to 6B (found by Sadiztyk Fish).
+Remove ugly water line|FX1|T|Removes ugly line that appears above the surface of water when you certain FX1 palette blends, letting you vary the appearence of water more.
+Remove Suit item animation|Misc|T|Varia suit and Gravity suit behave like regular items when collected (bypasses the sound, flash, and moving Samus to the center of the screen).
+Disable Crystal Flash|Misc||
+Hours -> Minutes in Ending|Misc||
+Disable xray startup animation|Misc||
+Custom xray beam width|Misc||
