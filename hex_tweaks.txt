@@ -27,4 +27,3 @@ Disable mockball/speedball ALT|Physics|T|Disables mockball/speedball, but with a
 Remove Smoke trails from Missiles|Misc||
 Remove Smoke trails from Super Missiles|Misc||
 Remove ALL trails|Misc|T|Removes ALL trails; this includes charged/uncharged shots for every beam, missiles/super missiles, and SBAs. 
-ZM/F style space jump|Physics|T|Space jumps can be done quicker and at any time in air, water or lava, even after falling long distances. 
