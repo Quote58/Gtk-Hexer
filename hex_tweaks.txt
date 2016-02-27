@@ -3,7 +3,7 @@ Elevator Flicker|Misc||
 'Beam' -> 'Boots'|HUD|T|This allows the player to move from <span foreground="blue"><b>BEAM</b></span> to <span foreground="orange"><b>BOOTS</b></span> when they click right, instead of <span foreground="blue"><b>BEAM</b></span> to <span foreground="red"><b>MISC</b></span> (because that made no sense)
 HUD Icon 'click'|HUD||
 Blue Palette change from metroid|Enemies|T|some stuff about metroids
-ZM/F style space jump|Physics||
+ZM/F style space jump|Physics|T|Space jumps can be done quicker and at any time in air, water or lava, even after falling long distances. 
 Remove all screen shake|FX1|T|Removes all "screen shake" effects that activate when super missiles explode, lava is rising, Kraid is emerging, Zebes is exploding, etc.
 Remove Title screen haze|FX1||
 Remove Game over screen haze|FX1||
