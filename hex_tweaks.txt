@@ -14,3 +14,11 @@ Disable Crystal Flash|Misc||
 Hours -> Minutes in Ending|Misc||
 Disable xray startup animation|Misc||
 Custom xray beam width|Misc||
+Disable walljumping|Physics||
+Disable walljumping but not animation|Physics|T|Disables walljumping, but Samus still enters the "about to walljump" pose when it is attempted.
+Walljumping no longer forces Samus away from the wall|Physics||
+Instant stopping|Physics|T|Disables the "skid" sequence when turning left/right
+Disable bomb jumping|Physics||
+Disable bomb jumping for power bombs only|Physics||
+"Bunny hop" bomb jump effect|Physics||
+Disable diagonal bomb jump|Physics||
