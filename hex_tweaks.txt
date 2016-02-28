@@ -33,3 +33,4 @@ Samus' ship does not refill Super Missiles|Enemies||
 Samus' ship does not refill Power Bombs|Enemies||
 Ammo beings refilling upon entering Samus' ship|Enemies||
 Samus' ship no longer hovers|Enemies||
+Prevent samus from losing speed during spinjump|Physics||
