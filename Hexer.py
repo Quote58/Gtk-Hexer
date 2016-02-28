@@ -20,18 +20,17 @@ class Catagory(Gtk.Stack):
 
 		self.parent_window = parent_window
 		self.catagory_name = catagory_name
+		self.contents = self.parent_window.hex_tweaks
 
 		#put the window together in the stack
 		self.swindow = Gtk.ScrolledWindow()
 		self.viewport = Gtk.Viewport()
 		self.switches = Gtk.Grid()
+
 		self.viewport.add(self.switches)
 		self.swindow.add(self.viewport)
 		self.add_titled(self.swindow, "test", "Hex")
 
-		#get the tweaks from the repository, and add the
-		#local ones from opening the file
-		self.contents = self.parse_data()
 		if self.parent_window.error == False:
 			self.add_switches()
 
@@ -47,24 +46,6 @@ class Catagory(Gtk.Stack):
 						data[0])
 		dialog.format_secondary_markup(data[3])
 		dialog.run() ; dialog.destroy()
-
-	def parse_data(self):
-		hex_tweaks = urllib2.urlopen(
-		"https://raw.githubusercontent.com/Quote58/Gtk-Hexer/master/hex_tweaks.txt")
-		hex_tweaks = hex_tweaks.read()
-		hex_tweaks = str(hex_tweaks)
-		hex_tweaks = hex_tweaks.replace("\\\\", "")
-		hex_tweaks = hex_tweaks.replace("\\\'", "\'")
-		hex_tweaks = hex_tweaks.rstrip("\\n'")
-		hex_tweaks = hex_tweaks.split("\\n")
-		hex_tweaks[0] = hex_tweaks[0].lstrip("b'")
-		hex_tweaks_local = open("hex_tweaks.txt", "r")
-		for i in hex_tweaks_local.readlines():
-			hex_tweaks.append(i)
-
-		#close the file after it's finished
-		hex_tweaks_local.close()
-		return hex_tweaks
 
 	def add_switches(self):
 		#parse this shit
@@ -93,7 +74,7 @@ class Catagory(Gtk.Stack):
 				name = data[0]
 				label = Gtk.Label("\t%s" % name)
 				label.set_line_wrap(True)
-				label.set_justify(Gtk.Justification.LEFT)
+				label.props.halign = Gtk.Align.START
 				switch = Gtk.Switch()
 				switch.connect("notify::active",
 						self.on_switch_activated,
@@ -116,13 +97,15 @@ class Window(Gtk.Window):
 	def __init__(self):
 		Gtk.Window.__init__(self, title="Hexer")
 		self.set_border_width(10)
-		self.set_default_size(600,500)
+		self.set_default_size(700,550)
 		self.error = False
+		self.hex_tweaks = self.get_hex_tweaks()
 
 		load_rom, save_rom, add_switch = (Gtk.FileChooserButton(), 
 						 Gtk.Button(), Gtk.Button())
 
-		save_rom.set_image(Gtk.Image(stock="gtk-apply"))
+		save_rom.set_image(Gtk.Image(stock="gtk-refresh"))
+		save_rom.connect("clicked", self.on_refresh_clicked)
 		add_switch.set_image(Gtk.Image(stock="gtk-add"))
 
 		headerbar = Gtk.HeaderBar()
@@ -161,11 +144,46 @@ class Window(Gtk.Window):
 		stack_main.add_titled(vertical_box, "test", "Hex")
 		stack_main.add_titled(InfoStack(), "info", "Info")
 
-		for i in ["HUD","Physics","Enemies","Misc"]:
+		for i in ["HUD","Physics","Enemies","FX1","Misc"]:
 			stack_hex.add_titled(Catagory(i, self), "%s Stack" % i, i)
 
 		self.add(stack_main)
 
+	def get_hex_tweaks(self):
+		hex_tweaks_local_file = open("hex_tweaks_local.txt", "r")
+		hex_tweaks_custom = open("hex_tweaks_custom.txt", "r")
+
+		test = hex_tweaks_local_file.readlines()
+		hex_tweaks_local = []
+		for i in test:
+			hex_tweaks_local.append(i.rstrip())
+		for i in hex_tweaks_custom.readlines():
+			hex_tweaks_local.append(i.rstrip())
+		#close the file after it's finished
+		hex_tweaks_local_file.close()
+		return hex_tweaks_local
+
+	def on_refresh_clicked(self, button):
+		web_contents = self.parse_web_data()
+		print(len(web_contents))
+		print(len(self.hex_tweaks))
+		for i in range(0,len(web_contents)):
+			if (web_contents[i] == self.hex_tweaks[i]):
+				print("hi")
+			else:
+				print("not hi")
+			
+	def parse_web_data(self):
+		hex_tweaks = urllib2.urlopen(
+		"https://raw.githubusercontent.com/Quote58/Gtk-Hexer/master/hex_tweaks.txt")
+		hex_tweaks = hex_tweaks.read()
+		hex_tweaks = str(hex_tweaks)
+		hex_tweaks = hex_tweaks.replace("\\\\", "")
+		hex_tweaks = hex_tweaks.replace("\\\'", "\'")
+		hex_tweaks = hex_tweaks.rstrip("\\n'")
+		hex_tweaks = hex_tweaks.split("\\n")
+		hex_tweaks[0] = hex_tweaks[0].lstrip("b'")
+		return hex_tweaks
 
 Hexer_window = Window()
 Hexer_window.connect("delete-event", Gtk.main_quit)
