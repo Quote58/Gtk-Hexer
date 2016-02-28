@@ -26,7 +26,7 @@ Disable mockball/speedball completely|Physics||
 Disable mockball/speedball ALT|Physics|T|Disables mockball/speedball, but with an interesting side-effect. Mid-air morphing behaves almost the same way as mid-air de-morping.
 Remove Smoke trails from Missiles|Misc||
 Remove Smoke trails from Super Missiles|Misc||
-Remove ALL trails|Misc|T|Removes ALL trails; this includes charged/uncharged shots for every beam, missiles/super missiles, and SBAs. 
+Remove ALL trails|Misc|T|Removes ALL trails; this includes charged/uncharged shots for every beam, missiles/super missiles, and SBAs.
 Samus' ship does not refill ANYTHING|Enemies||
 Samus' ship does not refill Missiles|Enemies||
 Samus' ship does not refill Super Missiles|Enemies||
