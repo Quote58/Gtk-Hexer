@@ -27,3 +27,9 @@ Disable mockball/speedball ALT|Physics|T|Disables mockball/speedball, but with a
 Remove Smoke trails from Missiles|Misc||
 Remove Smoke trails from Super Missiles|Misc||
 Remove ALL trails|Misc|T|Removes ALL trails; this includes charged/uncharged shots for every beam, missiles/super missiles, and SBAs. 
+Samus' ship does not refill ANYTHING|Enemies||
+Samus' ship does not refill Missiles|Enemies||
+Samus' ship does not refill Super Missiles|Enemies||
+Samus' ship does not refill Power Bombs|Enemies||
+Ammo beings refilling upon entering Samus' ship|Enemies||
+Samus' ship no longer hovers|Enemies||
