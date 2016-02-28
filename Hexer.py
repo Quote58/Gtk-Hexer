@@ -99,7 +99,7 @@ class Window(Gtk.Window):
 		self.set_border_width(10)
 		self.set_default_size(700,550)
 		self.error = False
-		self.hex_tweaks = self.get_hex_tweaks()
+		self.hex_tweaks,self.hex_tweaks_not_custom = self.get_hex_tweaks()
 
 		load_rom, save_rom, add_switch = (Gtk.FileChooserButton(), 
 						 Gtk.Button(), Gtk.Button())
@@ -122,6 +122,10 @@ class Window(Gtk.Window):
 		stack_main.set_transition_type(
 			Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
 		stack_main.set_transition_duration(300)
+		
+		stack_hex.set_transition_type(
+			Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+		stack_hex.set_transition_duration(300)
 
 		stack_switcher_main = Gtk.StackSwitcher()
 		stack_switcher_main.set_stack(stack_main)
@@ -153,25 +157,38 @@ class Window(Gtk.Window):
 		hex_tweaks_local_file = open("hex_tweaks_local.txt", "r")
 		hex_tweaks_custom = open("hex_tweaks_custom.txt", "r")
 
-		test = hex_tweaks_local_file.readlines()
+		temp = hex_tweaks_local_file.readlines()
 		hex_tweaks_local = []
-		for i in test:
+		for i in temp:
 			hex_tweaks_local.append(i.rstrip())
+		hex_tweaks_not_custom = list(hex_tweaks_local)
 		for i in hex_tweaks_custom.readlines():
 			hex_tweaks_local.append(i.rstrip())
 		#close the file after it's finished
 		hex_tweaks_local_file.close()
-		return hex_tweaks_local
+		return hex_tweaks_local,hex_tweaks_not_custom
 
 	def on_refresh_clicked(self, button):
 		web_contents = self.parse_web_data()
-		print(len(web_contents))
-		print(len(self.hex_tweaks))
-		for i in range(0,len(web_contents)):
-			if (web_contents[i] == self.hex_tweaks[i]):
-				print("hi")
-			else:
-				print("not hi")
+		if (web_contents == self.hex_tweaks_not_custom):
+			dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
+						Gtk.ButtonsType.OK, 
+						"You're up to date :D")
+			dialog.run() ; dialog.destroy()
+		else:
+			file_to_change = open("hex_tweaks_local.txt", "w")
+			file_to_change.truncate()
+			for i in web_contents:
+				file_to_change.write(i+"\n")
+			file_to_change.close()
+
+
+
+			dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO,
+						Gtk.ButtonsType.OK, 
+						"Stuff has been changed! Take a look :3")
+			dialog.format_secondary_text("Please restart Hexer for the changes to take effect")
+			dialog.run() ; dialog.destroy()
 			
 	def parse_web_data(self):
 		hex_tweaks = urllib2.urlopen(
@@ -189,14 +206,6 @@ Hexer_window = Window()
 Hexer_window.connect("delete-event", Gtk.main_quit)
 Hexer_window.show_all()
 Gtk.main()
-
-
-
-
-
-
-
-
 
 
 
