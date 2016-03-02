@@ -30,8 +30,7 @@ class Window(Gtk.ApplicationWindow):
 		Preferences = open("Preferences.txt", "r")
 		choice = Preferences.readline()
 		choice = choice.lstrip("size=").rstrip()
-		print(type(choice))
-		sizes = {"NORMAL" : (700, 550), "SMALL" : (250, 350), "BIG" : (700, 550)}
+		sizes = {"NORMAL" : (700, 550), "SMALL" : (600, 375), "BIG" : (850, 650)}
 
 		if choice in sizes:
 			self.set_default_size(sizes[choice][0], sizes[choice][1])
@@ -52,6 +51,8 @@ class Window(Gtk.ApplicationWindow):
 		refresh.connect("clicked", self.on_refresh_clicked)
 
 		preferences.set_image(Gtk.Image(stock="gtk-preferences"))
+		preferences.connect("clicked", self.on_preferences_clicked)
+
 		add_switch.set_image(Gtk.Image(stock="gtk-add"))
 
 		headerbar = Gtk.HeaderBar()
@@ -114,6 +115,11 @@ class Window(Gtk.ApplicationWindow):
 		#close the file after it's finished
 		hex_tweaks_local_file.close()
 		return hex_tweaks_local,hex_tweaks_not_custom
+
+	def on_preferences_clicked(self, button):
+		dialog = PreferencesDialog(self)
+		dialog.run() ; dialog.destroy()
+
 
 	def on_refresh_clicked(self, button):
 		web_contents = self.parse_web_data()

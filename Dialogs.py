@@ -1,6 +1,55 @@
 import gi ; gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
+class PreferencesDialog(Gtk.Dialog):
+	def __init__(self, parent):
+		Gtk.Dialog.__init__(self, "Preferences", parent, 0)
+		self.props.resizable = False
+		self.new_size = "NORMAL"
+
+		box = Gtk.Box(spacing=10)
+		box.props.halign = Gtk.Align.START
+		content = self.get_content_area()
+
+		apply_button = Gtk.Button()
+		apply_button.set_image(Gtk.Image(stock="gtk-apply"))
+		apply_button.connect("clicked", self.on_apply_clicked)
+
+		size_normal = Gtk.RadioButton.new_with_label_from_widget(None, "Normal")
+		size_small = Gtk.RadioButton.new_with_label_from_widget(size_normal, "Small")
+		size_large = Gtk.RadioButton.new_with_label_from_widget(size_normal, "Large")
+		
+		size_small.connect("toggled", self.on_button_toggled, "SMALL")
+		size_normal.connect("toggled", self.on_button_toggled, "NORMAL")
+		size_large.connect("toggled", self.on_button_toggled, "BIG")
+
+		Preferences = open("Preferences.txt", "r")
+		choice = Preferences.readline()
+		choice = choice.lstrip("size=").rstrip()
+		Preferences.close()
+		if (choice == "SMALL"):
+			size_small.set_active(True)
+		elif (choice == "LARGE"):
+			size_large.set_active(True)
+
+		box.pack_start(Gtk.Label("Default Size\t"), True, True, 0)
+		box.add(size_small)
+		box.add(size_normal)
+		box.add(size_large)
+		content.add(box)
+		content.pack_end(apply_button, True, True, 0)
+		self.show_all()
+
+	def on_apply_clicked(self, button):
+		Preferences = open("Preferences.txt", "w")
+		Preferences.write("size=%s" % self.size)
+		Preferences.close()
+		self.destroy()
+
+	def on_button_toggled(self, button, size):
+		if button.get_active():
+			self.size = size
+
 class ErrorDialog(Gtk.MessageDialog):
 	def __init__(self, parent_window, widget, errorNum):
 		if (errorNum == 1):
@@ -18,10 +67,12 @@ class ErrorDialog(Gtk.MessageDialog):
 
 class EditDialog(Gtk.Dialog):
 	def __init__(self, parent, data, switch):
+		self.props.resizable = False
+		Gtk.Dialog.__init__(self, data[0], parent, 0)
+
 		apply_button = Gtk.Button()
 		apply_button.set_image(Gtk.Image(stock="gtk-apply"))
 		apply_button.connect("clicked", self.on_apply_clicked, switch, parent)
-		Gtk.Dialog.__init__(self, data[0], parent, 0)
 		content = self.get_content_area()
 		old_bytes = Gtk.Label("Original Bytes ==> [%s]" % switch.originalbytes)
 		old_bytes.props.halign = Gtk.Align.START
