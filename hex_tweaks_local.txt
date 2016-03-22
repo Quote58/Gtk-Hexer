@@ -1,2 +1,2 @@
-Local Test|Misc|T|Some fucking text lol
-Local Test #2|Misc||
+Let's test this shit out | HUD | Description goes here! | T | 82B4E | 0800 | 1342
+Let's test this shit out | HUD | Description goes here! | T | 82B4E | 0800 | 4353
