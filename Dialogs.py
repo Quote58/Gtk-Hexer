@@ -5,7 +5,7 @@ class PreferencesDialog(Gtk.Dialog):
 	def __init__(self, parent):
 		Gtk.Dialog.__init__(self, "Preferences", parent, 0)
 		self.props.resizable = False
-		self.new_size = "NORMAL"
+		self.size = "NORMAL"
 
 		box = Gtk.Box(spacing=10)
 		box.props.halign = Gtk.Align.START
@@ -29,7 +29,7 @@ class PreferencesDialog(Gtk.Dialog):
 		Preferences.close()
 		if (choice == "SMALL"):
 			size_small.set_active(True)
-		elif (choice == "LARGE"):
+		elif (choice == "BIG"):
 			size_large.set_active(True)
 
 		box.pack_start(Gtk.Label("Default Size\t"), True, True, 0)
@@ -67,12 +67,13 @@ class ErrorDialog(Gtk.MessageDialog):
 
 class EditDialog(Gtk.Dialog):
 	def __init__(self, parent, data, switch):
-		self.props.resizable = False
-		Gtk.Dialog.__init__(self, data[0], parent, 0)
-
+		#self.props.resizable = False	<--causes segmentation fault???
 		apply_button = Gtk.Button()
 		apply_button.set_image(Gtk.Image(stock="gtk-apply"))
 		apply_button.connect("clicked", self.on_apply_clicked, switch, parent)
+		
+		Gtk.Dialog.__init__(self, data[0], parent, 0)
+		
 		content = self.get_content_area()
 		old_bytes = Gtk.Label("Original Bytes ==> [%s]" % switch.originalbytes)
 		old_bytes.props.halign = Gtk.Align.START
@@ -85,6 +86,7 @@ class EditDialog(Gtk.Dialog):
 		box.add(self.byte_entry)
 		content.add(box)
 		content.add(apply_button)
+		
 		self.show_all()
 
 	def on_apply_clicked(self, button, switch, parent):

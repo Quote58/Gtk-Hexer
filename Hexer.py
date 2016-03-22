@@ -4,6 +4,7 @@ try:
 except ImportError:
 	import urllib2
 import gi ; gi.require_version('Gtk', '3.0')
+import rom_functions
 from gi.repository import Gtk, Gio
 import sys
 from Dialogs import *
@@ -25,6 +26,7 @@ class InfoStack(Gtk.Stack):
 
 class Window(Gtk.ApplicationWindow):
 	def __init__(self):
+		print(rom_functions.stuff())
 		Gtk.Window.__init__(self, title="Hexer", application=app)
 		self.set_border_width(10)
 		Preferences = open("Preferences.txt", "r")
