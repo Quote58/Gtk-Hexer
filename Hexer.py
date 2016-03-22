@@ -1,4 +1,4 @@
-#---import gtk---
+#---import gtk and whatnot---
 try:
 	import urllib.request as urllib2
 except ImportError:
@@ -26,7 +26,6 @@ class InfoStack(Gtk.Stack):
 
 class Window(Gtk.ApplicationWindow):
 	def __init__(self):
-		print(rom_functions.stuff())
 		Gtk.Window.__init__(self, title="Hexer", application=app)
 		self.set_border_width(10)
 		Preferences = open("Preferences.txt", "r")

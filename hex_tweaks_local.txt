@@ -1,2 +1,2 @@
-Let's test this shit out | HUD | Description goes here! | T | 82B4E | 0800 | 1342
-Let's test this shit out | HUD | Description goes here! | T | 82B4E | 0800 | 4353
+Remove beam flicker | Misc | Removes the flicker effect from beams | F | 9826B | D0 | 80
+Remove elevator flicker | Misc | Removes the flicker effect when samus rides an elevator | F | 86C18 | 01 | 00

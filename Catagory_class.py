@@ -1,5 +1,6 @@
 import gi ; gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
+import rom_functions
 
 from Dialogs import *
 
@@ -11,6 +12,11 @@ class Switch(Gtk.Switch):
 		self.originalbytes = data[5]
 		self.newbytes = data[6]
 		self.seek = seek
+
+	def check_status(self):
+		test = rom_functions.check_tweak("rom.smc", self.offset, self.newbytes)
+		if (test == 1):
+			self.set_active(True)
 
 class Catagory(Gtk.Stack):
 	#takes in the catagory name, so it knows what to fill the
@@ -59,6 +65,10 @@ class Catagory(Gtk.Stack):
 				label.set_line_wrap(True)
 				label.props.halign = Gtk.Align.START
 				switch = Switch(data, seek)
+
+				#determine whether or not the tweak is there
+				switch.check_status()
+
 				seek+=1
 				switch.connect("notify::active",
 						self.on_switch_activated,
@@ -88,8 +98,10 @@ class Catagory(Gtk.Stack):
 
 	def on_switch_activated(self, switch, gparsam, name):
 		if switch.get_active():
+			rom_functions.apply_tweak("rom.smc", switch.offset, switch.newbytes)
 			print("%s is ON" % name)
 		else:
+			rom_functions.apply_tweak("rom.smc", switch.offset, switch.originalbytes)
 			print("%s is OFF" % name)
 
 	def on_info_clicked(self, button, data):
