@@ -28,7 +28,7 @@ class Window(Gtk.ApplicationWindow):
 	def __init__(self):
 		Gtk.Window.__init__(self, title="Hexer", application=app)
 		self.set_border_width(10)
-		Preferences = open("Preferences.txt", "r")
+		Preferences = open("files/Preferences.txt", "r")
 		choice = Preferences.readline()
 		choice = choice.lstrip("size=").rstrip()
 		sizes = {"NORMAL" : (700, 550), "SMALL" : (600, 375), "BIG" : (850, 650)}
@@ -103,8 +103,8 @@ class Window(Gtk.ApplicationWindow):
 		self.add(stack_main)
 
 	def get_hex_tweaks(self):
-		hex_tweaks_local_file = open("hex_tweaks_local.txt", "r")
-		hex_tweaks_custom = open("hex_tweaks_custom.txt", "r")
+		hex_tweaks_local_file = open("files/hex_tweaks_local.txt", "r")
+		hex_tweaks_custom = open("files/hex_tweaks_custom.txt", "r")
 
 		temp = hex_tweaks_local_file.readlines()
 		hex_tweaks_local = []
@@ -130,7 +130,7 @@ class Window(Gtk.ApplicationWindow):
 						"You're up to date :D")
 			dialog.run() ; dialog.destroy()
 		else:
-			file_to_change = open("hex_tweaks_local.txt", "w")
+			file_to_change = open("files/hex_tweaks_local.txt", "w")
 			file_to_change.truncate()
 			for i in web_contents:
 				file_to_change.write(i+"\n")

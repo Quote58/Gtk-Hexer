@@ -23,7 +23,7 @@ class PreferencesDialog(Gtk.Dialog):
 		size_normal.connect("toggled", self.on_button_toggled, "NORMAL")
 		size_large.connect("toggled", self.on_button_toggled, "BIG")
 
-		Preferences = open("Preferences.txt", "r")
+		Preferences = open("/files/Preferences.txt", "r")
 		choice = Preferences.readline()
 		choice = choice.lstrip("size=").rstrip()
 		Preferences.close()
@@ -41,7 +41,7 @@ class PreferencesDialog(Gtk.Dialog):
 		self.show_all()
 
 	def on_apply_clicked(self, button):
-		Preferences = open("Preferences.txt", "w")
+		Preferences = open("/files/Preferences.txt", "w")
 		Preferences.write("size=%s" % self.size)
 		Preferences.close()
 		self.destroy()
@@ -103,7 +103,7 @@ class EditDialog(Gtk.Dialog):
 				for i in range(0,self.max-len(bytes)):
 					bytes+="0"
 			switch.newbytes = bytes
-			hex_tweaks_local = open("hex_tweaks_local.txt", "r+")
+			hex_tweaks_local = open("files/hex_tweaks_local.txt", "r+")
 			for i in range(0,self.max):
 				hex_tweaks_local.seek(switch.seek-self.max+i)
 				hex_tweaks_local.write(bytes[i])
