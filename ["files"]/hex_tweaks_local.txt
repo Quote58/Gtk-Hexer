@@ -1,2 +1,0 @@
-Remove beam flicker | Misc | Removes the flicker effect from beams | F | 81006 | F000 | 0000
-Remove elevator flicker | Misc | Removes the flicker effect when samus rides an elevator | F | 86C18 | 01 | 00
