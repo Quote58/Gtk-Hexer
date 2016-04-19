@@ -14,8 +14,7 @@ class Switch(Gtk.Switch):
 		self.seek = seek
 
 	def check_status(self):
-		test = rom_functions.check_tweak("rom.smc", self.offset, self.newbytes)
-		if (test == 1):
+		if (rom_functions.not_main("rom.smc", self.offset, self.newbytes, 1) == 1):
 			self.set_active(True)
 
 class Catagory(Gtk.Stack):
@@ -98,10 +97,10 @@ class Catagory(Gtk.Stack):
 
 	def on_switch_activated(self, switch, gparsam, name):
 		if switch.get_active():
-			rom_functions.apply_tweak("rom.smc", switch.offset, switch.newbytes)
+			rom_functions.not_main("rom.smc", switch.offset, switch.newbytes, 0)
 			print("%s is ON" % name)
 		else:
-			rom_functions.apply_tweak("rom.smc", switch.offset, switch.originalbytes)
+			rom_functions.not_main("rom.smc", switch.offset, switch.originalbytes, 0)
 			print("%s is OFF" % name)
 
 	def on_info_clicked(self, button, data):

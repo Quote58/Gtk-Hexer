@@ -91,13 +91,21 @@ except AttributeError:
 
 
 
-def apply_tweak(rom, offset, bytes):
-    return _rom_functions.apply_tweak(rom, offset, bytes)
-apply_tweak = _rom_functions.apply_tweak
+def make_changes(arg1, arg2, arg3, arg4, arg5):
+    return _rom_functions.make_changes(arg1, arg2, arg3, arg4, arg5)
+make_changes = _rom_functions.make_changes
 
-def check_tweak(rom, offset, bytes):
-    return _rom_functions.check_tweak(rom, offset, bytes)
-check_tweak = _rom_functions.check_tweak
+def get_data(arg1, arg2, arg3, arg4):
+    return _rom_functions.get_data(arg1, arg2, arg3, arg4)
+get_data = _rom_functions.get_data
+
+def apply_changes(arg1, arg2, arg3):
+    return _rom_functions.apply_changes(arg1, arg2, arg3)
+apply_changes = _rom_functions.apply_changes
+
+def not_main(arg1, arg2, arg3, arg4):
+    return _rom_functions.not_main(arg1, arg2, arg3, arg4)
+not_main = _rom_functions.not_main
 # This file is compatible with both classic and new-style classes.
 
 

@@ -41,7 +41,7 @@ class PreferencesDialog(Gtk.Dialog):
 		self.show_all()
 
 	def on_apply_clicked(self, button):
-		Preferences = open("/files/Preferences.txt", "w")
+		Preferences = open("files/Preferences.txt", "w")
 		Preferences.write("size=%s" % self.size)
 		Preferences.close()
 		self.destroy()
@@ -101,12 +101,14 @@ class EditDialog(Gtk.Dialog):
 		else:
 			if (len(bytes)<self.max):
 				for i in range(0,self.max-len(bytes)):
-					bytes+="0"
+					bytes = "0"+bytes
 			switch.newbytes = bytes
 			hex_tweaks_local = open("files/hex_tweaks_local.txt", "r+")
-			for i in range(0,self.max):
-				hex_tweaks_local.seek(switch.seek-self.max+i)
-				hex_tweaks_local.write(bytes[i])
+			i = self.max
+			while i > 0:
+				hex_tweaks_local.seek(switch.seek-(i-1))
+				hex_tweaks_local.write(bytes[self.max-i])
+				i -= 1
 
 			hex_tweaks_local.close()
 			self.destroy()
