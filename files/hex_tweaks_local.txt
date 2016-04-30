@@ -1,5 +1,5 @@
-Remove Beam Flicker | Misc | Removes the flicker effect from beams | F | 9826B | D0 | 80
-Remove Elevator Flicker | Misc | Removes the flicker effect when samus rides an elevator | F | 86C18 | 01 | 00
+Remove Beam Flicker | Misc |  | F | 9826B | D0 | 80
+Remove Elevator Flicker | Misc |  | F | 86C18 | 01 | 00
 'Beam' -> 'Boots' | HUD | This allows the player to move from <span foreground="blue"><b>BEAM</b></span> to <span foreground="orange"><b>BOOTS</b></span> when they click right, instead of <span foreground="blue"><b>BEAM</b></span> to <span foreground="red"><b>MISC</b></span> (because that made no sense) | F | 12FF6 | 00 | 01
 Remove missile trail | Misc | Removes the smoke trail from missiles | F | 82F80 | 2257B690 | EAEAEAEA
 Run Samus, Run! | Physics | Makes samus run fast even if speed booster isn't collected/equipped | F | 8178C | 89 | A9
@@ -9,11 +9,11 @@ Remove HUD Icon 'click' | HUD | HUD icons no longer make a "click" sound when cy
 Blue Palette change from metroid | Enemies | Removes the changing palette to blue when Metroid suckles you. Player also can run away from Metroid like Mochtroid. (Found By JAM) | F | 11EEAC | B0 | 80
 ZM/F style space jump | Physics | Space jumps can be done quicker and at any time in air, water or lava, even after falling long distances. | F | 8249E | 9D9E1026 | EAEAEAEA
 Remove all screen shake | FX1 | Removes all "screen shake" effects that activate when super missiles explode, lava is rising, Kraid is emerging, Zebes is exploding, etc. | F | 10BAF | 228786A0 | EAEAEAEA
-Remove Title screen haze | FX1 | Removes the greenish haze from the title screen | F | 59C98 | 88 | 93
-Remove Title screen haze | FX1 | Removes the greenish haze from the title screen | F | 924D | 88 | 93
+Remove Title screen haze | FX1 |  | F | 59C98 | 88 | 93
+Remove Game over screen haze | FX1 |  | F | 924D | 88 | 93
 Remove gray haze from Bomb Torizo room | FX1 | Removes the gray haze from the bomb Torizo's room, and allows you to use any other FX1 in place of it. Easiest way to do this is to use another Crateria room's FX1 pointer after you change 22 to 6B (found by Sadiztyk Fish). | F | 15490F | 22 | 6B
 Remove Suit item animation | Misc | Varia suit and Gravity suit behave like regular items when collected (bypasses the sound, flash, and moving Samus to the center of the screen). | F | 20717 | 22218784 | EAEAEAEA
-Disable Crystal Flash | Misc | Disables the use of crystal flash | F | 40B5F | 22A2D590 | EAEAEAEA
+Disable Crystal Flash | Misc |  | F | 40B5F | 22A2D590 | EAEAEAEA
 Disable xray startup animation | Misc |  | F | 4078A | A0 | 00
 Custom xray beam width | Misc | This goes up to 40, which effectively makes X-ray's beam the entire screen in front of Samus, but going higher glitches. | T | 4079A | 0A | 40
 Walljumping no longer forces Samus away from the wall | Physics |   | F | 81006 | FF00 | 0000
@@ -28,6 +28,6 @@ Remove Smoke trails from Missiles | Misc |  | F | 82F80 | 2257B690 | EAEAEAEA
 Remove Smoke trails from Super Missiles | Misc |  | F | 82FFE | 2257B690 | EAEAEAEA
 Remove ALL trails | Misc | Removes ALL trails; this includes charged/uncharged shots for every beam, missiles/super missiles, and SBAs. | F | 982F7 | 22A9B690 | EAEAEAEA
 Ammo begins refilling upon entering Samus' ship | Enemies |  | F | 112A89 | 8DA80F | EAEAEA
+Custom message box timer | Misc | Time for how long the message box stays open. (Found by Black_Falcon) <span foreground="red">NOTE:</span> The ROM value is reversed so 68 01 is actually 0168 which means the box stays open for 168 frames in hex (time for the 'aquired item' fanfare). (default old value: 0168, new default is: 0100) | T | 28491 | 6801 | 0100
 Samus' ship no longer hovers | Enemies |  | F | 11277D | 2084A7 | EAEAEA
 Prevent samus from losing speed during spinjump | Physics |  | F | 8F625 | 23 | 22
-Custom message box timer | Misc | Time for how long the message box stays open. (Found by Black_Falcon) <span foreground="red">NOTE:</span> The ROM value is reversed so 68 01 is actually 0168 which means the box stays open for 168 frames in hex (time for the 'aquired item' fanfare). (default old value: 0168, new default is: 0100) | T | 28491 | 6801 | 0001
