@@ -1,5 +1,6 @@
 import gi ; gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
+from Window import *
 
 class PreferencesDialog(Gtk.Dialog):
 	def __init__(self, parent):
@@ -23,7 +24,7 @@ class PreferencesDialog(Gtk.Dialog):
 		size_normal.connect("toggled", self.on_button_toggled, "NORMAL")
 		size_large.connect("toggled", self.on_button_toggled, "BIG")
 
-		Preferences = open("/files/Preferences.txt", "r")
+		Preferences = open("files/Preferences.txt", "r")
 		choice = Preferences.readline()
 		choice = choice.lstrip("size=").rstrip()
 		Preferences.close()
@@ -56,7 +57,7 @@ class ErrorDialog(Gtk.MessageDialog):
 			lineNum = widget.lineNum ; line_str = widget.line_str
 		else:
 			lineNum = 0 ; line_str = "Inproper string given"
-		error_1 = "Too few arguments given for entry in <span foreground=\"dark blue\"><b>hex_tweaks.txt</b></span> :(\n<span foreground=\"green\"><b>Line:</b></span> %s <span foreground=\"green\"><b>-</b></span> \"%s\"" %  (lineNum, line_str)
+		error_1 = "Too few arguments given for entry in <span foreground=\"dark blue\"><b>hex_tweaks.txt</b></span> :(\n<span foreground=\"green\"><b>Line:</b></span> %s <span foreground=\"green\"><b>-</b></span> \"%s\"" %  (lineNum+1, line_str)
 		self.errorMessages = [0,error_1] + ["Incorrect input - Must be digits from 0 to F", "Enter a value before clicking Apply", "Preferences.txt is fucked up"]
 
 		Gtk.MessageDialog.__init__(self, parent_window, 0,
@@ -75,14 +76,25 @@ class EditDialog(Gtk.Dialog):
 		Gtk.Dialog.__init__(self, data[0], parent, 0)
 		
 		content = self.get_content_area()
-		old_bytes = Gtk.Label("Original Bytes ==> [%s]" % switch.originalbytes)
+
+		old_bytes = Gtk.Label()
+		Gtk.Label.set_markup(old_bytes, "<span foreground=\"dark blue\"><b>Original Bytes</b></span> ==> [%s]" % switch.originalbytes)
+
+		current_bytes = Gtk.Label()
+		Gtk.Label.set_markup(current_bytes, "<span foreground=\"dark blue\"><b>Current Bytes</b></span> ==> [%s]" % switch.newbytes)
+
+		new_bytes = Gtk.Label()
+		Gtk.Label.set_markup(new_bytes, "<span foreground=\"dark red\"><b>New Bytes</b></span> ==> ")
+
 		old_bytes.props.halign = Gtk.Align.START
+		current_bytes.props.halign = Gtk.Align.START
 		content.add(old_bytes)
+		content.add(current_bytes)
 		self.max = len(data[6])
 		self.byte_entry = Gtk.Entry()
 		self.byte_entry.set_max_length(self.max)
 		box = Gtk.Box()
-		box.pack_start(Gtk.Label("New Bytes ==> "),False, False, 0)
+		box.pack_start(new_bytes,False, False, 0)
 		box.add(self.byte_entry)
 		content.add(box)
 		content.add(apply_button)
@@ -112,6 +124,15 @@ class EditDialog(Gtk.Dialog):
 
 			hex_tweaks_local.close()
 			self.destroy()
+
+
+
+
+
+
+
+
+
 
 
 

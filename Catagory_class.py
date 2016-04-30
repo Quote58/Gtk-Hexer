@@ -3,19 +3,24 @@ from gi.repository import Gtk, Gio
 import rom_functions
 
 from Dialogs import *
+from Window import *
 
 class Switch(Gtk.Switch):
-	def __init__(self, data, seek):
+	def __init__(self, data, seek, parent):
 		Gtk.Switch.__init__(self)
 		
+		self.data = data
+		self.parent = parent
 		self.offset = data[4]
 		self.originalbytes = data[5]
 		self.newbytes = data[6]
 		self.seek = seek
 
 	def check_status(self):
-		if (rom_functions.not_main("rom.smc", self.offset, self.newbytes, 1) == 1):
+		if (rom_functions.not_main(self.parent.parent_window.file_path, self.offset, self.newbytes, 1) == 1):
 			self.set_active(True)
+		else:
+			self.set_active(False)
 
 class Catagory(Gtk.Stack):
 	#takes in the catagory name, so it knows what to fill the
@@ -63,7 +68,7 @@ class Catagory(Gtk.Stack):
 				label = Gtk.Label("\t%s" % name)
 				label.set_line_wrap(True)
 				label.props.halign = Gtk.Align.START
-				switch = Switch(data, seek)
+				switch = Switch(data, seek, self)
 
 				#determine whether or not the tweak is there
 				switch.check_status()
@@ -97,10 +102,10 @@ class Catagory(Gtk.Stack):
 
 	def on_switch_activated(self, switch, gparsam, name):
 		if switch.get_active():
-			rom_functions.not_main("rom.smc", switch.offset, switch.newbytes, 0)
+			rom_functions.not_main(self.parent_window.file_path, switch.offset, switch.newbytes, 0)
 			print("%s is ON" % name)
 		else:
-			rom_functions.not_main("rom.smc", switch.offset, switch.originalbytes, 0)
+			rom_functions.not_main(self.parent_window.file_path, switch.offset, switch.originalbytes, 0)
 			print("%s is OFF" % name)
 
 	def on_info_clicked(self, button, data):
