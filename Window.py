@@ -20,6 +20,9 @@ class Window(Gtk.ApplicationWindow):
 		choice = choice.lstrip("size=").rstrip()
 		sizes = {"NORMAL" : (700, 550), "SMALL" : (600, 375), "BIG" : (850, 650)}
 
+		rom_name = Preferences.readline()
+		rom_name = rom_name[4::].rstrip()
+
 		if choice in sizes:
 			self.set_default_size(sizes[choice][0], sizes[choice][1])
 		else:
@@ -29,28 +32,31 @@ class Window(Gtk.ApplicationWindow):
 
 		Preferences.close()
 
-		#this will only actually happen if you haven't set up a rom path before
-		file_choose = Gtk.FileChooserDialog("Select a rom file (file name must end with .smc)", self, Gtk.FileChooserAction.OPEN, ("Cancel", Gtk.ResponseType.CANCEL, "Open", Gtk.ResponseType.OK))
+		temp_path = rom_name
 
-		response = file_choose.run()
+		if (rom_name == "NONE"):
+			file_choose = Gtk.FileChooserDialog("Select a rom file (file name must end with .smc)", self, Gtk.FileChooserAction.OPEN, ("Cancel", Gtk.ResponseType.CANCEL, "Open", Gtk.ResponseType.OK))
+			response = file_choose.run()
+
+			if response == Gtk.ResponseType.OK:
+				temp_path = file_choose.get_filename()
+
+			file_choose.destroy()
 
 		self.set_up_window()
 
-		if response == Gtk.ResponseType.CANCEL:
-			print("Oh noes :(")
-			file_choose.destroy()
-
-		elif response == Gtk.ResponseType.OK:
-			temp_path = file_choose.get_filename()
-			file_choose.destroy()
-
-			if (temp_path[len(temp_path)-3:len(temp_path)] == "smc"):
-				self.file_path = temp_path
+		if (temp_path[len(temp_path)-3:len(temp_path)] == "smc"):
+			self.file_path = temp_path
 				#is it a rom?
-				for i in ["HUD","Physics","Enemies","FX1","Misc"]:
-					self.stack_hex.add_titled(Catagory(i, self), "%s Stack" % i, i)
-			else:
-				print("must be a rom, n00b")
+			if rom_name == "NONE":
+				self.change_path(temp_path)
+
+			for i in ["HUD","Physics","Enemies","FX1","Misc"]:
+				self.stack_hex.add_titled(Catagory(i, self), "%s Stack" % i, i)
+		else:
+			print(temp_path)
+			print("must be a rom, n00b")
+
 		self.add(self.stack_main)
 			
 	def on_load_clicked(self, button):
@@ -66,6 +72,7 @@ class Window(Gtk.ApplicationWindow):
 
 			if (temp_path[len(temp_path)-3:len(temp_path)] == "smc"):
 				self.file_path = temp_path
+				self.change_path(temp_path)
 
 				if len(self.stack_hex) == 0:
 					for i in ["HUD","Physics","Enemies","FX1","Misc"]:
@@ -80,7 +87,19 @@ class Window(Gtk.ApplicationWindow):
 			else:
 				print("that's not a rom file n00b")
 
-
+	def change_path(self, temp_path):
+		Preferences = open("files/Preferences.txt", "r+")
+		current_line = ""
+		i = 0
+		while current_line != "rom=":
+			current_line = Preferences.read(4)
+			Preferences.seek(i)
+			i+=1
+		Preferences.seek(i-2)
+		Preferences.write("rom=%s" % temp_path)
+		Preferences.seek(0)
+		Preferences.truncate(i+3+len(temp_path)-1)
+		Preferences.close()
 
 	def set_up_window(self):
 		self.error = False
