@@ -29,5 +29,7 @@ Remove Smoke trails from Super Missiles | Misc |  | F | 82FFE | 2257B690 | EAEAE
 Remove ALL trails | Misc | Removes ALL trails; this includes charged/uncharged shots for every beam, missiles/super missiles, and SBAs. | F | 982F7 | 22A9B690 | EAEAEAEA
 Ammo begins refilling upon entering Samus' ship | Enemies |  | F | 112A89 | 8DA80F | EAEAEA
 Custom message box timer | Misc | Time for how long the message box stays open. (Found by Black_Falcon) <span foreground="red">NOTE:</span> The ROM value is reversed so 68 01 is actually 0168 which means the box stays open for 168 frames in hex (time for the 'aquired item' fanfare). (default old value: 0168, new default is: 0100) | T | 28491 | 6801 | 0100
+Disables walljump | Physics |  | F | 81D87 81DAC | 227F9694 227F9694 | EAEAEAEA EAEAEAEA
+Disable Map screen | Misc | Pause menu goes directly to Status screen, skipping the map | F | 110CF 110DA 11110 11251 12505 | 224D8980 0B 209142915691AB AD5307F0 20 | EAEAEAEA 00 5691AB91319242 A9030080 60
 Samus' ship no longer hovers | Enemies |  | F | 11277D | 2084A7 | EAEAEA
 Prevent samus from losing speed during spinjump | Physics |  | F | 8F625 | 23 | 22
