@@ -67,6 +67,7 @@ class ErrorDialog(Gtk.MessageDialog):
 
 class EditDialog(Gtk.Dialog):
 	def __init__(self, parent, data, switch):
+		self.data = data
 		#self.props.resizable = False	<--causes segmentation fault???
 		apply_button = Gtk.Button()
 		apply_button.set_image(Gtk.Image(stock="gtk-apply"))
@@ -90,6 +91,7 @@ class EditDialog(Gtk.Dialog):
 		content.add(old_bytes)
 		content.add(current_bytes)
 		self.max = len(data[6])
+		self.maxold = len(data[5])
 		self.byte_entry = Gtk.Entry()
 		self.byte_entry.set_max_length(self.max)
 		box = Gtk.Box()
@@ -103,15 +105,16 @@ class EditDialog(Gtk.Dialog):
 	def on_apply_clicked(self, button, switch, parent):
 		bytes = self.byte_entry.get_text()
 		if (len([i for i in bytes.lower() if
-			(not(i in "0123456789abcdef"))]) > 0):
-			dialog = ErrorDialog(parent, button, 2)
-			dialog.run() ; dialog.destroy()
+			(not(i in "0123456789abcdef "))]) > 0):
+			self.run_error(parent, button, 2)
 		elif (len(bytes) < 1):
-			dialog = ErrorDialog(parent, button, 3)
-			dialog.run() ; dialog.destroy()
+			self.run_error(parent, button, 3)
+		elif (len(bytes.split(" ")) != len(self.data[5].split(" ")) or len(bytes.split(" ")) != len(self.data[6].split(" "))):
+			self.run_error(parent, button, 6)
 		else:
-			if (len(bytes)<self.max):
-				for i in range(0,self.max-len(bytes)):
+			if (len(bytes)<len(self.data[6]+self.data[5])):
+				for i in range(0,(len(self.data[5]+self.data[6]))-len(bytes)):
+					#TO DO: this part doesn't work properly for multi offset tweaks
 					bytes = "0"+bytes
 			switch.newbytes = bytes
 			hex_tweaks_local = open("files/hex_tweaks_local.txt", "r+")
@@ -124,7 +127,9 @@ class EditDialog(Gtk.Dialog):
 			hex_tweaks_local.close()
 			self.destroy()
 
-
+	def run_error(self, parent, button, number):
+		dialog = ErrorDialog(parent, button, number)
+		dialog.run() ; dialog.destroy()
 
 
 
