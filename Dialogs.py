@@ -1,6 +1,5 @@
 import gi ; gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
-from Window import *
 
 class PreferencesDialog(Gtk.Dialog):
 	def __init__(self, parent):
@@ -58,11 +57,11 @@ class ErrorDialog(Gtk.MessageDialog):
 		else:
 			lineNum = 0 ; line_str = "Inproper string given"
 		error_1 = "Too few arguments given for entry in <span foreground=\"dark blue\"><b>hex_tweaks.txt</b></span> :(\n<span foreground=\"green\"><b>Line:</b></span> %s <span foreground=\"green\"><b>-</b></span> \"%s\"" %  (lineNum+1, line_str)
-		self.errorMessages = [0,error_1] + ["Incorrect input - Must be digits from 0 to F", "Enter a value before clicking Apply", "Preferences.txt is fucked up"]
+		self.errorMessages = [0,error_1] + ["Incorrect input - Must be digits from 0 to F", "Enter a value before clicking Apply", "Preferences.txt is fucked up", "Default rom path is not valid, please reload the rom, thank you", "The number of byte changes does not match the number of offsets in one of the tweaks, please fix"]
 
 		Gtk.MessageDialog.__init__(self, parent_window, 0,
 						Gtk.MessageType.ERROR,
-						Gtk.ButtonsType.CANCEL,
+						Gtk.ButtonsType.OK,
 						("ERROR %i" % errorNum))
 		self.format_secondary_markup(self.errorMessages[errorNum])
 

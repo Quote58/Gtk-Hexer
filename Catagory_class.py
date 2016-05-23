@@ -1,31 +1,33 @@
 import gi ; gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 import rom_functions
-
-from Dialogs import *
-from Window import *
+from code.Dialogs import *
 
 class Switch(Gtk.Switch):
 	def __init__(self, data, seek, parent):
 		Gtk.Switch.__init__(self)
-		
 		self.data = data
 		self.parent = parent
-		self.offset = data[4]
-		self.originalbytes = data[5]
-		self.newbytes = data[6]
+		self.offset = data[4].split(" ")
+		self.originalbytes = data[5].split(" ")
+		self.newbytes = data[6].split(" ")
 		self.seek = seek
+		
 
 	def check_status(self):
-		if (rom_functions.not_main(self.parent.parent_window.file_path, self.offset, self.newbytes, 1) == 1):
-			self.set_active(True)
-		else:
-			self.set_active(False)
+		j = 0
+		for i in self.offset:
+			if (rom_functions.not_main(self.parent.parent_window.file_path, i, self.newbytes[j], 1) == 1):
+				self.set_active(True)
+			else:
+				self.set_active(False)
+				break
 
 class Catagory(Gtk.Stack):
 	#takes in the catagory name, so it knows what to fill the
 	#grid with
 	def __init__(self, catagory_name, parent_window):
+
 		Gtk.Stack.__init__(self)
 
 		self.parent_window = parent_window
@@ -40,6 +42,7 @@ class Catagory(Gtk.Stack):
 		self.viewport.add(self.switches)
 		self.swindow.add(self.viewport)
 		self.add_titled(self.swindow, "test", "Hex")
+
 
 		if self.parent_window.error == False:
 			self.add_switches()
@@ -59,20 +62,27 @@ class Catagory(Gtk.Stack):
 		if (self.parent_window.error == True):
 			return
 		seek = 0
+
 		for line in self.contents:
 			for i in line:
 				seek+=1
 			data = line.split(" | ")
 			if(self.catagory_name == data[1].strip()):
+
 				name = data[0]
 				label = Gtk.Label("\t%s" % name)
 				label.set_line_wrap(True)
 				label.props.halign = Gtk.Align.START
+				if (len(data[4].split(" ")) != len(data[5].split(" ")) or len(data[4].split(" ")) != len(data[6].split(" "))):
+					dialog = ErrorDialog(self.parent_window, self.parent_window, 6)
+					dialog.run() ; dialog.destroy()
+					continue
+
 				switch = Switch(data, seek, self)
 
 				#determine whether or not the tweak is there
-				switch.check_status()
 
+				switch.check_status()
 				seek+=1
 				switch.connect("notify::active",
 						self.on_switch_activated,
@@ -101,12 +111,17 @@ class Catagory(Gtk.Stack):
 
 
 	def on_switch_activated(self, switch, gparsam, name):
+		#TO DO: make a function that combines the apply and check functions
 		if switch.get_active():
-			rom_functions.not_main(self.parent_window.file_path, switch.offset, switch.newbytes, 0)
+			bytes = switch.newbytes
 			print("%s is ON" % name)
 		else:
-			rom_functions.not_main(self.parent_window.file_path, switch.offset, switch.originalbytes, 0)
+			bytes = switch.originalbytes
 			print("%s is OFF" % name)
+		j = 0
+		for i in switch.offset:
+			rom_functions.not_main(self.parent_window.file_path, i, bytes[j], 0)
+			j+=1
 
 	def on_info_clicked(self, button, data):
 		dialog = Gtk.MessageDialog(self.parent_window, 0, Gtk.MessageType.INFO,
@@ -119,3 +134,23 @@ class Catagory(Gtk.Stack):
 		dialog = EditDialog(self.parent_window, data, switch)
 		dialog.run()
 		dialog.destroy()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

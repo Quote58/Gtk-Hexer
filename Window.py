@@ -4,12 +4,15 @@ except ImportError:
 	import urllib2
 
 import gi ; gi.require_version('Gtk', '3.0')
-import rom_functions
 from gi.repository import Gtk, Gio
 import sys
-from Dialogs import *
-from Catagory_class import *
-from Hexer import *
+from code.Dialogs import *
+from code.Catagory_class import *
+
+class InfoStack(Gtk.Stack):
+	def __init__(self):
+		Gtk.Stack.__init__(self)
+		self.add(Gtk.Label("Hexer Version 0.0.2\noh hai there"))
 
 class Window(Gtk.ApplicationWindow):
 	def __init__(self, app):
@@ -31,10 +34,9 @@ class Window(Gtk.ApplicationWindow):
 			self.set_default_size(700,550)
 
 		Preferences.close()
-
 		temp_path = rom_name
 
-		if (rom_name == "NONE"):
+		if (rom_name == "NONE" or self.check_path(rom_name) == False):
 			file_choose = Gtk.FileChooserDialog("Select a rom file (file name must end with .smc)", self, Gtk.FileChooserAction.OPEN, ("Cancel", Gtk.ResponseType.CANCEL, "Open", Gtk.ResponseType.OK))
 			response = file_choose.run()
 
@@ -53,10 +55,11 @@ class Window(Gtk.ApplicationWindow):
 
 			for i in ["HUD","Physics","Enemies","FX1","Misc"]:
 				self.stack_hex.add_titled(Catagory(i, self), "%s Stack" % i, i)
+				
 		else:
+
 			print(temp_path)
 			print("must be a rom, n00b")
-
 		self.add(self.stack_main)
 			
 	def on_load_clicked(self, button):
@@ -227,6 +230,15 @@ class Window(Gtk.ApplicationWindow):
 		hex_tweaks = hex_tweaks.split("\\n")
 		hex_tweaks[0] = hex_tweaks[0].lstrip("\"b'")
 		return hex_tweaks
+
+	def check_path(self, rom_name):
+		import os.path
+		if not os.path.isfile(rom_name):
+			dialog = ErrorDialog(self, self, 5)
+			dialog.run() ; dialog.destroy()
+			return False
+		else:
+			return True
 
 
 
